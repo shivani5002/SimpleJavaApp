@@ -56,6 +56,71 @@ function App(){
 }
 export default App;
 
+//3
+import React, { useState, useMemo } from 'react';
+
+export default function App() {
+  const [products] = useState([
+    { name: "Pen", qty: 10, price: 20 },
+    { name: "Book", qty: 5, price: 100 }
+  ]);
+
+  const [search, setSearch] = useState('');
+  const [dark, setDark] = useState(false);
+
+  const totalValue = useMemo(() => {
+    return products.reduce(
+      (sum, item) => sum + item.qty * item.price,
+      0
+    );
+  }, [products]);
+
+  const filtered = products.filter((p) =>
+    p.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <div
+      style={{
+        backgroundColor: dark ? "#222" : "#fff",
+        color: dark ? "#fff" : "#000",
+        minHeight: "100vh",
+        padding: "20px"
+      }}
+    >
+      <h2>Inventory Management</h2>
+
+      <button onClick={() => setDark(!dark)}>
+        Toggle Theme
+      </button>
+
+      <br />
+      <br />
+
+      <input
+        type="text"
+        placeholder="Search Product"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      <ul>
+        {filtered.map((p, index) => {
+          if (!p.qty) return null;
+
+          return (
+            <li key={index}>
+              {p.name} - Qty: {p.qty} - ₹{p.price}
+            </li>
+          );
+        })}
+      </ul>
+
+      <h3>Total Value: ₹{totalValue}</h3>
+    </div>
+  );
+}
+
 //stm
 //2
 package com.test.selenium; 
